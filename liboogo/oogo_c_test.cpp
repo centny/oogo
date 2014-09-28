@@ -5,8 +5,8 @@
  *      Author: cny
  */
 #ifdef _DEV__
-#include "oogo_c.h"
-#include "oogo.h"
+#include "../oogo_c.h"
+#include "../oogo.h"
 #include <iostream>
 using namespace std;
 using namespace oogo;
@@ -28,12 +28,12 @@ void testoogo() {
 	cout << "formula:" << oogo_sheet_set_formula(ss, 6, 3, "=B2+C5") << endl;
 	cout << "store:"
 			<< oogo_store_calc(calc, "Calc MS Excel 2007 XML",
-					"file:///tmp/ttt.xlsx") << endl;
+					"file:///C:/Users/Cny/Desktop/tabc.xlsx") << endl;
 	cout << "close:" << oogo_close_calc(calc) << endl;
 	////////////////////////////////
 	///
 	cout << "<---------Calc--------->" << endl;
-	calc = oogo_open_calc("file:///tmp/ttt.xlsx");
+	calc = oogo_open_calc("file:///C:/Users/Cny/Desktop/tabc.xlsx");
 	cout << "open:" << calc.code << endl;
 	ss = oogo_sheet_i(calc, 0);
 	cout << "sheet:" << ss.code << endl;

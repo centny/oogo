@@ -4,8 +4,8 @@
  *  Created on: Sep 28, 2014
  *      Author: cny
  */
-#include "oogo.h"
-#include "oogo_c.h"
+#include "../oogo.h"
+#include "../oogo_c.h"
 #include <com/sun/star/uno/Exception.hpp>
 using namespace oogo;
 #ifdef __cplusplus

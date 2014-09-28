@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liboogo", "liboogo.vcxproj", "{BCEB28BC-1D88-4797-9938-DA8D3334C013}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "oogo_t", "oogo_t.vcxproj", "{36E4EFB5-AF83-46F6-A05A-F03DE881BC1C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BCEB28BC-1D88-4797-9938-DA8D3334C013} = {BCEB28BC-1D88-4797-9938-DA8D3334C013}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCEB28BC-1D88-4797-9938-DA8D3334C013}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BCEB28BC-1D88-4797-9938-DA8D3334C013}.Debug|Win32.Build.0 = Debug|Win32
+		{BCEB28BC-1D88-4797-9938-DA8D3334C013}.Release|Win32.ActiveCfg = Release|Win32
+		{BCEB28BC-1D88-4797-9938-DA8D3334C013}.Release|Win32.Build.0 = Release|Win32
+		{36E4EFB5-AF83-46F6-A05A-F03DE881BC1C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{36E4EFB5-AF83-46F6-A05A-F03DE881BC1C}.Debug|Win32.Build.0 = Debug|Win32
+		{36E4EFB5-AF83-46F6-A05A-F03DE881BC1C}.Release|Win32.ActiveCfg = Release|Win32
+		{36E4EFB5-AF83-46F6-A05A-F03DE881BC1C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

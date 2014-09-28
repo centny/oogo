@@ -5,7 +5,7 @@
  *      Author: cny
  */
 
-#include "Oogo.h"
+#include "../oogo.h"
 
 namespace oogo {
 string Bootstrap::NEW_CALC = "private:factory/scalc";

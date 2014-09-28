@@ -6,6 +6,7 @@ package oogo
 #include "oogo_c.h"
 #cgo darwin CPPFLAGS: -I/Users/cny/LibreOffice4.3_SDK/include -I/Users/cny/LibreOffice4.3_SDK/inc -DUNX -DGCC -DMACOSX -DCPPU_ENV=s5abi -arch x86_64
 #cgo darwin LDFLAGS: -L/Users/cny/LibreOffice4.3_SDK/macosx/lib -luno_cppu -luno_cppuhelpergcc3 -luno_purpenvhelpergcc3 -luno_sal -luno_salhelpergcc3
+#cgo win LDFLAGS: -LC:\LibreOffice4\sdk\lib -LC:\GOPATH\src\github.com\Centny\oogo -loogo -licppu -licppuhelper -lipurpenvhelper -lisal -lisalhelper
 */
 import "C"
 import (
