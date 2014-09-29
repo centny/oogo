@@ -1,40 +1,85 @@
 LibreOffice-GO
 ======
-> library for calling LibreOffice/OpenOffice by golang
+> library for calling LibreOffice by golang
 
 ===
 #Install
+#####＞Install LibreOfice and LibreOfice SDK,compile idl.
 
-* Install LibreOffice and LibreOffice SDK.
-* Install GCC (using mingw on window).
-* GO get:
+* Download from <http://www.libreoffice.org/download/>.
+* Install(install sdk to location withou blank space in the path on window,like C:\LibreOffice4)
+* Compile idl to generate C++ header:
 
 linux/unix/osx:
 
- ```
-cd <LibreOffice4.3_SDK path>/
-
+```
+cd <LibreOffice4.3_SDK path>
+./setsdkenv_windows
 cppumaker -Gc -O./inc <LibreOffice Path>/misc/types.rdb <LibreOffice Path>/types/offapi.rdb
 
-export CGO_CPPFLAGS="-I<LibreOffice4.3_SDK path>/include/ -I<LibreOffice4.3_SDK path>/inc"
+```
 
+windows:
+
+```
+cd <LibreOffice4.3_SDK path>
+
+setsdkenv_windows
+
+cppumaker -Gc -O.\inc <LibreOffice Path>\URE\misc\types.rdb <LibreOffice Path>\program\types\offapi.rdb
+
+```
+
+
+#####＞GO get(not install):
+
+```
+go get -d github.com/Centny/oogo
+```
+
+#####＞Compile the liboogo
+
+linux/unix/osx:
+
+```
+cd $GOPATH/src/github.com/Centny/oogo
+./autoget.sh
+./configure --prefix=/usr/local
+
+#for osx
+make "-I/Users/cny/LibreOffice4.3_SDK/include -I/Users/cny/LibreOffice4.3_SDK/inc -DUNX -DGCC -DMACOSX -DCPPU_ENV=s5abi"
+
+#for linx
+
+make install
+
+```
+windows:
+
+```
+#go to %GOPATH%/src/github.com/Centny/oogo/liboogo
+#open liboogo.vcxproj
+#update include and library directory configure to <LibreOffice4.3_SDK path>,default is C:\LibreOffice4\sdk
+#build the oogo.lib and oogo.dll
+
+```
+
+#####＞Go install
+
+linux/unix/osx:
+
+```
 export CGO_LDFLAGS="-L<LibreOffice4.3_SDK path>/<platform>/lib -luno_cppu -luno_cppuhelpergcc3 -luno_purpenvhelpergcc3 -luno_sal -luno_salhelpergcc3"
 
-go get github.com/Centny/oogo	
+go install github.com/Centny/oogo	
 ```
 
-win32:
+windows:
 
 ```
-cd <LibreOffice4.3_SDK path>/
+set CGO_LDFLAGS=-L<LibreOffice4.3_SDK path>\lib -L%GOPATH%\src\github.com\Centny\oogo -loogo -licppu -licppuhelper -lipurpenvhelper -lisal -lisalhelper
 
-cppumaker -Gc -O./inc <LibreOffice Path>/misc/types.rdb <LibreOffice Path>/types/offapi.rdb
-
-set CGO_CFLAGS=-I<LibreOffice4.3_SDK path>\include -I%JAVA_HOME%\include\win32
-
-set CGO_LDFLAGS=-L%JAVA_HOME%\lib -ljvm
-
-go get github.com/Centny/jnigo	
+go install github.com/Centny/oogo
 ```
 
 

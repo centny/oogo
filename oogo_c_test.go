@@ -2,9 +2,19 @@ package oogo
 
 import (
 	"fmt"
+	"os"
+	"strings"
 	"testing"
 )
 
+func rfloader() string {
+	for _, arg := range os.Args {
+		if strings.HasPrefix(arg, "wdir=") {
+			return strings.TrimPrefix(arg, "wdir=")
+		}
+	}
+	return os.TempDir()
+}
 func TestOO(t *testing.T) {
 	Init()
 	defer Destory()
@@ -31,7 +41,7 @@ func TestOO(t *testing.T) {
 	fmt.Println("----------------->")
 	//
 	calc.Close()
-	calc, err = OpenCalc("file:///C:/Users/Cny/Desktop/oo.xlsx")
+	calc, err = OpenCalc()
 	ss, err = calc.SheetI(0)
 	if err != nil {
 		t.Error(err.Error())
@@ -61,4 +71,10 @@ func TestOO(t *testing.T) {
 	calc.Store(XLSX, "file:///C:/Users/Cny/Desktop/oo2.xlsx")
 	//
 	calc.Close()
+}
+func TestFileProtocol(t *testing.T) {
+	fmt.Println(FileProtocolPath("~"))
+	fmt.Println(FileProtocolPath("sfdsf"))
+	fmt.Println(FileProtocolPath("/sdfs/sfdsf"))
+	fmt.Println(FileProtocolPath("C:\\s\\sdfs"))
 }
