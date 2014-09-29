@@ -2,19 +2,9 @@ package oogo
 
 import (
 	"fmt"
-	"os"
-	"strings"
 	"testing"
 )
 
-func rfloader() string {
-	for _, arg := range os.Args {
-		if strings.HasPrefix(arg, "wdir=") {
-			return strings.TrimPrefix(arg, "wdir=")
-		}
-	}
-	return os.TempDir()
-}
 func TestOO(t *testing.T) {
 	Init()
 	defer Destory()
@@ -41,7 +31,8 @@ func TestOO(t *testing.T) {
 	fmt.Println("----------------->")
 	//
 	calc.Close()
-	calc, err = OpenCalc()
+	//
+	calc, err = OpenCalc("file:///C:/Users/Cny/Desktop/oo.xlsx")
 	ss, err = calc.SheetI(0)
 	if err != nil {
 		t.Error(err.Error())
