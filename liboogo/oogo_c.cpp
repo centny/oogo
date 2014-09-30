@@ -144,6 +144,17 @@ sheet_c oogo_sheet_n(calc_c c, const char* name) {
 	}
 }
 ////
+int oogo_sheet_end_r_l(sheet_c s, int* col, int* row) {
+	try {
+		Sheet *sheet = (Sheet*) s.sheet;
+		sheet->end_r_l(col, row);
+		return 0;
+	} catch (Exception &e) {
+		oogo_ebuf_e(e);
+		return 1;
+	}
+}
+////
 int oogo_sheet_set_v(sheet_c s, int x, int y, double num) {
 	try {
 		Sheet *sheet = (Sheet*) s.sheet;

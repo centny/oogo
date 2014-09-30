@@ -48,6 +48,7 @@ Calc::~Calc() {
 	}
 	this->sss.clear();
 	this->doc->dispose();
+//	cout << "closing doucment" << endl;
 }
 Sheet* Calc::newSheet(string name, int idx) {
 	this->calc->getSheets()->insertNewByName(StringToOUString(name.c_str()),
@@ -82,6 +83,15 @@ Sheet::Sheet(Reference<XSpreadsheet> sheet) {
 }
 Sheet::~Sheet() {
 
+}
+void Sheet::end_r_l(int* col, int* row) {
+	Reference<XSheetCellCursor> cursor = this->sheet->createCursor();
+	Reference<XUsedAreaCursor> used(cursor, UNO_QUERY);
+	used->gotoEndOfUsedArea(true);
+	Reference<XCellRangeAddressable> cra(used, UNO_QUERY);
+	CellRangeAddress cra_ = cra->getRangeAddress();
+	*row = cra_.EndRow;
+	*col = cra_.EndColumn;
 }
 void Sheet::setValue(int x, int y, double num) {
 	Reference<XCell> cell = sheet->getCellByPosition(x, y);

@@ -24,15 +24,23 @@ const (
 	XLSX = "Calc MS Excel 2007 XML"
 )
 
+//Call object to map LibreOffice XSpreadsheetDocument
 type Calc C.calc_c
+
+//Call object to map LibreOffice XSpreadsheet
 type Sheet C.sheet_c
 
+//initial the LibreOffice(bootstrap)
 func Init() int {
 	return int(C.oogo_init())
 }
+
+//free all.
 func Destory() int {
 	return int(C.oogo_destory())
 }
+
+//check the error message.
 func Error() error {
 	buf := make([]byte, E_BUF_LEN)
 	C.oogo_cpy_ebuf((*C.char)(unsafe.Pointer(&buf[0])))
@@ -44,7 +52,7 @@ func Error() error {
 	}
 }
 
-//
+//create one calc document.
 func NewCalc() (Calc, error) {
 	calc := C.oogo_new_calc()
 	if calc.code == 0 {
@@ -53,6 +61,8 @@ func NewCalc() (Calc, error) {
 		return Calc{}, Error()
 	}
 }
+
+//open one cacl document.
 func OpenCalc(url string) (Calc, error) {
 	curl := C.CString(url)
 	defer C.free(unsafe.Pointer(curl))
@@ -63,6 +73,8 @@ func OpenCalc(url string) (Calc, error) {
 		return Calc{}, Error()
 	}
 }
+
+//close the calc document.
 func (c Calc) Close() error {
 	code := C.oogo_close_calc(C.calc_c(c))
 	if code == 0 {
@@ -71,6 +83,8 @@ func (c Calc) Close() error {
 		return Error()
 	}
 }
+
+//save document to file by file and file url.
 func (c Calc) Store(filter, url string) error {
 	cfilter := C.CString(filter)
 	curl := C.CString(url)
@@ -85,6 +99,8 @@ func (c Calc) Store(filter, url string) error {
 		return Error()
 	}
 }
+
+//new sheet by name and index.
 func (c Calc) NewSheet(name string, idx int) (Sheet, error) {
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
@@ -95,6 +111,8 @@ func (c Calc) NewSheet(name string, idx int) (Sheet, error) {
 		return Sheet{}, Error()
 	}
 }
+
+//find sheet by index.
 func (c Calc) SheetI(idx int) (Sheet, error) {
 	sheet := C.oogo_sheet_i(C.calc_c(c), C.int(idx))
 	if sheet.code == 0 {
@@ -103,6 +121,8 @@ func (c Calc) SheetI(idx int) (Sheet, error) {
 		return Sheet{}, Error()
 	}
 }
+
+//find sheet by name.
 func (c Calc) SheetN(name string) (Sheet, error) {
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
@@ -115,6 +135,7 @@ func (c Calc) SheetN(name string) (Sheet, error) {
 }
 
 // //
+//set number value by index.
 func (s Sheet) SetV(x, y int, num float64) error {
 	code := C.oogo_sheet_set_v(C.sheet_c(s), C.int(x), C.int(y), C.double(num))
 	if code == 0 {
@@ -123,6 +144,8 @@ func (s Sheet) SetV(x, y int, num float64) error {
 		return Error()
 	}
 }
+
+//get number value by index.
 func (s Sheet) GetV(x, y int) (float64, error) {
 	var num C.double = 0
 	code := C.oogo_sheet_get_v(C.sheet_c(s), C.int(x), C.int(y), &num)
@@ -134,6 +157,7 @@ func (s Sheet) GetV(x, y int) (float64, error) {
 }
 
 // //
+//set the formula by index.
 func (s Sheet) SetFormula(x, y int, val string) error {
 	cval := C.CString(val)
 	defer C.free(unsafe.Pointer(cval))
@@ -144,6 +168,8 @@ func (s Sheet) SetFormula(x, y int, val string) error {
 		return Error()
 	}
 }
+
+//get the formula by index.
 func (s Sheet) GetFormula(x, y int) (string, error) {
 	var l C.int = 0
 	code := C.oogo_sheet_get_formula_l(C.sheet_c(s), C.int(x), C.int(y), &l)
@@ -163,6 +189,7 @@ func (s Sheet) GetFormula(x, y int) (string, error) {
 }
 
 // //
+//set the text by index.
 func (s Sheet) SetText(x, y int, val string) error {
 	cval := C.CString(val)
 	defer C.free(unsafe.Pointer(cval))
@@ -173,6 +200,8 @@ func (s Sheet) SetText(x, y int, val string) error {
 		return Error()
 	}
 }
+
+//get the text by index.
 func (s Sheet) GetText(x, y int) (string, error) {
 	var l C.int = 0
 	code := C.oogo_sheet_get_text_l(C.sheet_c(s), C.int(x), C.int(y), &l)
@@ -191,12 +220,29 @@ func (s Sheet) GetText(x, y int) (string, error) {
 	}
 }
 
-func FileProtocolPath(t string) (string, error) {
+//return the end cell index of column and row
+func (s Sheet) EndRL() (int, int, error) {
+	var c C.int = 0
+	var r C.int = 0
+	code := C.oogo_sheet_end_r_l(C.sheet_c(s), &c, &r)
+	if code == 0 {
+		return int(c), int(r), nil
+	} else {
+		return 0, 0, Error()
+	}
+}
+
+//cover the local file path to file:// path.
+func FileProtocolPath(t string) string {
 	t = strings.Trim(t, " \t")
 	if strings.HasPrefix(t, "file://") {
-		return t, nil
+		return t
 	}
 	t, _ = filepath.Abs(t)
 	t = strings.Replace(t, "\\", "/", -1)
-	return "file://" + t, nil
+	if strings.HasPrefix(t, "/") {
+		return "file://" + t
+	} else {
+		return "file:///" + t
+	}
 }

@@ -27,5 +27,5 @@ func ExampleOOgo() {
 	fmt.Println(ss.GetText(11, 0))
 	fmt.Println(ss.GetFormula(11, 2))
 	fmt.Println(ss.GetV(1, 1))
-	calc.Store(XLSX, "file:///tmp/oo.xlsx") //save
+	calc.Store(XLSX, FileProtocolPath("file:///tmp/oo.xlsx")) //save
 }

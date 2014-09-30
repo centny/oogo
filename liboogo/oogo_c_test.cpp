@@ -14,10 +14,13 @@ void testoogo() {
 	cout << "init:" << oogo_init() << endl;
 	////////////////////////////////
 	///
+	int row = 0, col = 0;
 	calc_c calc = oogo_new_calc();
 	cout << "new:" << calc.code << endl;
 	sheet_c ss = oogo_sheet_i(calc, 0);
 	cout << "sheet:" << ss.code << endl;
+	cout << "row_col:" << oogo_sheet_end_r_l(ss, &col, &row) << endl;
+	cout << "row_col_v:" << col << " " << row << endl;
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 10; j++) {
 			oogo_sheet_set_v(ss, i, j, i * j * 4);
@@ -25,15 +28,19 @@ void testoogo() {
 	}
 	cout << "text:" << oogo_sheet_set_text(ss, 6, 0, "abc1") << endl;
 	cout << "text:" << oogo_sheet_set_text(ss, 6, 1, "这是中文，chinese") << endl;
+	cout << "text:" << oogo_sheet_set_text(ss, 7, 100, "这是中文，chinese") << endl;
+	cout << "text:" << oogo_sheet_set_text(ss, 8, 2, "这是中文，chinese") << endl;
 	cout << "formula:" << oogo_sheet_set_formula(ss, 6, 3, "=B2+C5") << endl;
 	cout << "store:"
 			<< oogo_store_calc(calc, "Calc MS Excel 2007 XML",
-					"file:///C:/Users/Cny/Desktop/tabc.xlsx") << endl;
+					"file:///tmp/tabc.xlsx") << endl;
+	cout << "row_col:" << oogo_sheet_end_r_l(ss, &col, &row) << endl;
+	cout << "row_col_v:" << col << " " << row << endl;
 	cout << "close:" << oogo_close_calc(calc) << endl;
 	////////////////////////////////
 	///
 	cout << "<---------Calc--------->" << endl;
-	calc = oogo_open_calc("file:///C:/Users/Cny/Desktop/tabc.xlsx");
+	calc = oogo_open_calc("file:///tmp/tabc.xlsx");
 	cout << "open:" << calc.code << endl;
 	ss = oogo_sheet_i(calc, 0);
 	cout << "sheet:" << ss.code << endl;
@@ -52,6 +59,8 @@ void testoogo() {
 	cout << "lenv:" << l << endl;
 	cout << "text:" << oogo_sheet_cpy_text(ss, 6, 1, buf, l) << endl;
 	cout << "textv:" << string(buf) << endl;
+	cout << "row_col:" << oogo_sheet_end_r_l(ss, &col, &row) << endl;
+	cout << "row_col_v:" << col << " " << row << endl;
 	//
 	cout << "close:" << oogo_close_calc(calc) << endl;
 	////////////////////////////////

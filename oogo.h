@@ -16,10 +16,15 @@
 #include <com/sun/star/util/Color.hpp>
 #include <com/sun/star/sheet/XSpreadsheetDocument.hpp>
 #include <com/sun/star/sheet/XSpreadsheet.hpp>
+#include <com/sun/star/table/XColumnRowRange.hpp>
+#include <com/sun/star/table/XTableColumns.hpp>
 #include <com/sun/star/container/XIndexAccess.hpp>
 #include <com/sun/star/container/XNameAccess.hpp>
 #include <com/sun/star/container/XNamed.hpp>
 #include <com/sun/star/frame/XStorable.hpp>
+#include <com/sun/star/sheet/XUsedAreaCursor.hpp>
+#include <com/sun/star/sheet/XCellRangeAddressable.hpp>
+#include <com/sun/star/table/CellRangeAddress.hpp>
 #include <com/sun/star/text/XText.hpp>
 #include <string>
 #include <set>
@@ -73,6 +78,8 @@ private:
 public:
 	Sheet(Reference<XSpreadsheet> sheet);
 	virtual ~Sheet();
+	//
+	void end_r_l(int* col, int* row);
 	//
 	void setValue(int x, int y, double num);
 	double getValue(int x, int y);

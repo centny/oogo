@@ -42,16 +42,21 @@ OOGO_EXPORT sheet_c oogo_sheet_new(calc_c c, const char* name, int idx);
 OOGO_EXPORT sheet_c oogo_sheet_i(calc_c c, int idx);
 OOGO_EXPORT sheet_c oogo_sheet_n(calc_c c, const char* name);
 //
+OOGO_EXPORT int oogo_sheet_end_r_l(sheet_c s, int* col, int* row);
+//
 OOGO_EXPORT int oogo_sheet_set_v(sheet_c s, int x, int y, double num);
 OOGO_EXPORT int oogo_sheet_get_v(sheet_c s, int x, int y, double* num);
 //
-OOGO_EXPORT int oogo_sheet_set_formula(sheet_c s, int x, int y, const char* val);
+OOGO_EXPORT int oogo_sheet_set_formula(sheet_c s, int x, int y,
+		const char* val);
 OOGO_EXPORT int oogo_sheet_get_formula_l(sheet_c s, int x, int y, int* l);
-OOGO_EXPORT int oogo_sheet_cpy_formula(sheet_c s, int x, int y, char* buf, int len);
+OOGO_EXPORT int oogo_sheet_cpy_formula(sheet_c s, int x, int y, char* buf,
+		int len);
 //
 OOGO_EXPORT int oogo_sheet_set_text(sheet_c s, int x, int y, const char* text);
 OOGO_EXPORT int oogo_sheet_get_text_l(sheet_c s, int x, int y, int* l);
-OOGO_EXPORT int oogo_sheet_cpy_text(sheet_c s, int x, int y, char* buf, int len);
+OOGO_EXPORT int oogo_sheet_cpy_text(sheet_c s, int x, int y, char* buf,
+		int len);
 //
 #ifdef __cplusplus
 }

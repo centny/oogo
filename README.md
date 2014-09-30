@@ -6,8 +6,8 @@ LibreOffice-GO
 #Install
 #####＞Install LibreOfice and LibreOfice SDK,compile idl.
 
-* Download from <http://www.libreoffice.org/download/>.
-* Install(install sdk to location withou blank space in the path on window,like C:\LibreOffice4)
+* Install mingw on window(only for window)
+* Install LibreOffice and LibreOffice sdk from <http://www.libreoffice.org/download/>(install sdk to location withou blank space in the path on window,like C:\LibreOffice4)
 * Compile idl to generate C++ header:
 
 linux/unix/osx:
@@ -46,21 +46,21 @@ cd $GOPATH/src/github.com/Centny/oogo
 ./autoget.sh
 ./configure --prefix=/usr/local
 
-#for osx
-make "-I/Users/cny/LibreOffice4.3_SDK/include -I/Users/cny/LibreOffice4.3_SDK/inc -DUNX -DGCC -DMACOSX -DCPPU_ENV=s5abi"
+//for osx
+make "CPPFLAGS=-I<LibreOffice4.3_SDK path>/include -I<LibreOffice4.3_SDK path>/inc -DUNX -DGCC -DMACOSX -DCPPU_ENV=s5abi"
 
-#for linx
+//for linux
 
 make install
-
 ```
+
 windows:
 
 ```
-#go to %GOPATH%/src/github.com/Centny/oogo/liboogo
-#open liboogo.vcxproj
-#update include and library directory configure to <LibreOffice4.3_SDK path>,default is C:\LibreOffice4\sdk
-#build the oogo.lib and oogo.dll
+1.go to %GOPATH%/src/github.com/Centny/oogo/liboogo
+2.open liboogo.vcxproj
+3.update include and library directory configure to <LibreOffice4.3_SDK path>,default is C:\LibreOffice4\sdk
+4.build the oogo.lib and oogo.dll
 
 ```
 
@@ -69,7 +69,7 @@ windows:
 linux/unix/osx:
 
 ```
-export CGO_LDFLAGS="-L<LibreOffice4.3_SDK path>/<platform>/lib -luno_cppu -luno_cppuhelpergcc3 -luno_purpenvhelpergcc3 -luno_sal -luno_salhelpergcc3"
+export CGO_LDFLAGS="-L<LibreOffice4.3_SDK path>/<platform>/lib -L/usr/local/lib -loogo -luno_cppu -luno_cppuhelpergcc3 -luno_purpenvhelpergcc3 -luno_sal -luno_salhelpergcc3"
 
 go install github.com/Centny/oogo	
 ```
@@ -87,10 +87,10 @@ go install github.com/Centny/oogo
 
 ```go
 
-	Init()                 //initial the environment.
-	defer Destory()        //destory all.
-	calc, err := NewCalc() //new Spreadsheet
-	// calc, err := OpenCalc("file://tmp/oo.xlsx")
+	oogo.Init()                 //initial the environment.
+	defer oogo.Destory()        //destory all.
+	calc, err := oogo.NewCalc() //new Spreadsheet
+	// calc, err := oogo.OpenCalc("file://tmp/oo.xlsx")
 	if err != nil {
 		return
 	}
@@ -109,5 +109,5 @@ go install github.com/Centny/oogo
 	fmt.Println(ss.GetText(11, 0))
 	fmt.Println(ss.GetFormula(11, 2))
 	fmt.Println(ss.GetV(1, 1))
-	calc.Store(XLSX, "file:///tmp/oo.xlsx") //save
+	calc.Store(oogo.XLSX, "file:///tmp/oo.xlsx") //save
 ```

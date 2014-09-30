@@ -26,13 +26,14 @@ func TestOO(t *testing.T) {
 	ss.SetText(11, 0, "abc1")
 	ss.SetText(11, 1, "这是中文,chinese")
 	ss.SetFormula(11, 2, "=D4+E5")
-	calc.Store(XLSX, "file:///C:/Users/Cny/Desktop/oo.xlsx")
+	fmt.Println(ss.EndRL())
+	calc.Store(XLSX, "file:///tmp/oo.xlsx")
 	//
 	fmt.Println("----------------->")
 	//
 	calc.Close()
 	//
-	calc, err = OpenCalc("file:///C:/Users/Cny/Desktop/oo.xlsx")
+	calc, err = OpenCalc("file:///tmp/oo.xlsx")
 	ss, err = calc.SheetI(0)
 	if err != nil {
 		t.Error(err.Error())
@@ -43,6 +44,7 @@ func TestOO(t *testing.T) {
 	fmt.Println(ss.GetText(11, 2))
 	fmt.Println(ss.GetV(11, 2))
 	fmt.Println(ss.GetFormula(11, 2))
+	fmt.Println(ss.EndRL())
 	//
 	ss, err = calc.NewSheet("Abc", 1)
 	if err != nil {
@@ -58,8 +60,9 @@ func TestOO(t *testing.T) {
 	}
 	fmt.Println(ss.GetText(0, 0))
 	fmt.Println(ss.GetText(0, 1))
+	fmt.Println(ss.EndRL())
 	//
-	calc.Store(XLSX, "file:///C:/Users/Cny/Desktop/oo2.xlsx")
+	calc.Store(XLSX, "file:///tmp/oo2.xlsx")
 	//
 	calc.Close()
 }
