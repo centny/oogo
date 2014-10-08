@@ -7,15 +7,23 @@ LibreOffice-GO
 #####＞Install LibreOfice and LibreOfice SDK,compile idl.
 
 * Install mingw on window(only for window)
-* Install LibreOffice and LibreOffice sdk from <http://www.libreoffice.org/download/>(install sdk to location withou blank space in the path on window,like C:\LibreOffice4)
+* Install LibreOffice and LibreOffice sdk from <http://www.libreoffice.org/download/>(install sdk to location withou blank space in the path on window,like C:\LibreOffice4) or using yum.
 * Compile idl to generate C++ header:
 
-linux/unix/osx:
+osx:
 
 ```
 cd <LibreOffice4.3_SDK path>
 ./setsdkenv_windows
 cppumaker -Gc -O./inc <LibreOffice Path>/misc/types.rdb <LibreOffice Path>/types/offapi.rdb
+```
+
+centos:
+
+```
+yum install libreoffice libreoffice-sdk
+cd <LibreOffice4.3_SDK path>
+cppumaker -Gc -O./inc ../ure-link/share/misc/types.rdb ../program/types/offapi.rdb
 
 ```
 
@@ -23,11 +31,8 @@ windows:
 
 ```
 cd <LibreOffice4.3_SDK path>
-
 setsdkenv_windows
-
 cppumaker -Gc -O.\inc <LibreOffice Path>\URE\misc\types.rdb <LibreOffice Path>\program\types\offapi.rdb
-
 ```
 
 
@@ -45,12 +50,14 @@ linux/unix/osx:
 cd $GOPATH/src/github.com/Centny/oogo
 ./autoget.sh
 ./configure --prefix=/usr/local
-
+#
+#
 //for osx
 make "CPPFLAGS=-I<LibreOffice4.3_SDK path>/include -I<LibreOffice4.3_SDK path>/inc -DUNX -DGCC -DMACOSX -DCPPU_ENV=s5abi"
-
 //for linux
-
+make "CPPFLAGS=-I<LibreOffice4.3_SDK path>/include -I<LibreOffice4.3_SDK path>/inc -DUNX -DGCC -DLINUX -DCPPU_ENV=gcc3 -DHAVE_GCC_VISIBILITY_FEATURE"
+#
+#
 make install
 ```
 
@@ -61,16 +68,21 @@ windows:
 2.open liboogo.vcxproj
 3.update include and library directory configure to <LibreOffice4.3_SDK path>,default is C:\LibreOffice4\sdk
 4.build the oogo.lib and oogo.dll
-
 ```
 
 #####＞Go install
 
-linux/unix/osx:
+osx:
 
 ```
 export CGO_LDFLAGS="-L<LibreOffice4.3_SDK path>/<platform>/lib -L/usr/local/lib -loogo -luno_cppu -luno_cppuhelpergcc3 -luno_purpenvhelpergcc3 -luno_sal -luno_salhelpergcc3"
+go install github.com/Centny/oogo	
+```
 
+linux:
+
+```
+export CGO_LDFLAGS="-L<LibreOffice4.3_SDK path>/<platform>/lib -L/usr/local/lib -L<LibreOffice4.3 path>/ure/lib -loogo -luno_cppu -luno_cppuhelpergcc3 -luno_purpenvhelpergcc3 -luno_sal -luno_salhelpergcc3"
 go install github.com/Centny/oogo	
 ```
 
@@ -78,7 +90,6 @@ windows:
 
 ```
 set CGO_LDFLAGS=-L<LibreOffice4.3_SDK path>\lib -L%GOPATH%\src\github.com\Centny\oogo -loogo -licppu -licppuhelper -lipurpenvhelper -lisal -lisalhelper
-
 go install github.com/Centny/oogo
 ```
 
